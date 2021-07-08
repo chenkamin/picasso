@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+const s3Bucket = require('./awsService')
 const express = require('express');
 const multer = require('multer');
 const app = express();
@@ -6,21 +7,14 @@ const uuid = require('uuid')
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
 
-const ID = process.env.ACCESS_KEY_ID;
-const SECRET = process.env.SECRET_ACCESS_KEY;
+
 const storage = multer.memoryStorage({
     destination: function (req, file, callback) {
         callback(null, '')
     }
 })
 
-
-const s3 = new AWS.S3({
-    accessKeyId: ID,
-    secretAccessKey: SECRET
-});
-
-const upload = multer({ storage }).single('image')
+const upload = multer({ storage }).array('image', 3)
 app.post('/upload', upload, (req, res) => {
 
     let myFile = req.file.originalname.split(".")
@@ -33,7 +27,7 @@ app.post('/upload', upload, (req, res) => {
         Body: req.file.buffer
     }
 
-    s3.upload(params, (error, data) => {
+    s3Bucket.s3.upload(params, (error, data) => {
         if (error) {
             res.status(500).send(error)
         }
