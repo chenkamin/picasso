@@ -4,7 +4,7 @@ dotenv.config({ path: './config.env' });
 
 const ID = process.env.ACCESS_KEY_ID;
 const SECRET = process.env.SECRET_ACCESS_KEY;
-console.log(ID)
+
 const BUCKET_NAME = 'test-bucket-chen';
 
 
@@ -21,9 +21,9 @@ const params = {
     }
 };
 
-s3.createBucket(params, function (err, data) {
-    if (err) console.log(err, err.stack);
-    else console.log('Bucket Created Successfully', data.Location);
-});
+// s3.createBucket(params, function (err, data) {
+//     if (err) console.log(err, err.stack);
+//     else console.log('Bucket Created Successfully', data.Location);
+// });
 
-module.exports = awsService;
+// module.exports = AWS;
