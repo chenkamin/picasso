@@ -17,26 +17,29 @@ const storage = multer.memoryStorage({
 
 const upload = multer({ storage }).single('image', 1)
 app.post('/upload', upload, async (req, res) => {
-    // console.log(req.file)
-    let myFile = req.file.originalname.split(".")
+    images = await resizeImages(req.file)
+    const responses = await Promise.all(
+        images.map(param => s3Bucket.s3.upload(param).promise())
+    )
+
+    res.status(200).send(responses)
+})
+
+
+const resizeImages = async (image) => {
+    let myFile = image.originalname.split(".")
     const fileType = myFile[myFile.length - 1]
     const imageSizes = [
         { sizeName: 'large', sizeInt: 2048 },
         { sizeName: 'medium', sizeInt: 1024 },
         { sizeName: 'thumb', sizeInt: 300 },
     ]
-    const params = [
-        // {
-        //     Bucket: process.env.BUCKET_NAME,
-        //     Key: `${uuid()}.${fileType}`,
-        //     Body: scaleByHalf
-        // }
-    ]
+    const params = [];
     for (s of imageSizes) {
 
-        const scaleByHalf = await sharp(req.file.buffer)
+        const scaleByHalf = await sharp(image.buffer)
             .metadata()
-            .then(() => sharp(req.file.buffer)
+            .then(() => sharp(image.buffer)
                 .resize({
                     width: s['sizeInt'],
                     height: s['sizeInt'],
@@ -50,16 +53,9 @@ app.post('/upload', upload, async (req, res) => {
             Body: scaleByHalf
         })
     }
+    return params;
 
-
-
-    const responses = await Promise.all(
-        params.map(param => s3Bucket.s3.upload(param).promise())
-    )
-
-    res.status(200).send(responses)
-})
-
+}
 app.get("/health", (req, res) => {
     res.status(200).json({
         message: "hello world"
