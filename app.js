@@ -14,25 +14,42 @@ const storage = multer.memoryStorage({
     }
 })
 
-const upload = multer({ storage }).array('image', 3)
-app.post('/upload', upload, (req, res) => {
-
+const upload = multer({ storage }).single('image', 1)
+app.post('/upload', upload, async (req, res) => {
+    console.log(req.file)
     let myFile = req.file.originalname.split(".")
     const fileType = myFile[myFile.length - 1]
 
     // console.log(req.file)
-    const params = {
-        Bucket: process.env.BUCKET_NAME,
-        Key: `${uuid()}.${fileType}`,
-        Body: req.file.buffer
-    }
-
-    s3Bucket.s3.upload(params, (error, data) => {
-        if (error) {
-            res.status(500).send(error)
+    const params = [
+        {
+            Bucket: process.env.BUCKET_NAME,
+            Key: `${uuid()}.${fileType}`,
+            Body: req.file.buffer
+        },
+        {
+            Bucket: process.env.BUCKET_NAME,
+            Key: `${uuid()}111.${fileType}`,
+            Body: req.file.buffer
+        },
+        {
+            Bucket: process.env.BUCKET_NAME,
+            Key: `${uuid()}222.${fileType}`,
+            Body: req.file.buffer
         }
-        res.status(200).send(data)
-    })
+    ]
+
+    const responses = await Promise.all(
+        params.map(param => s3Bucket.s3.upload(param).promise())
+    )
+
+    res.status(200).send(responses)
+    // s3Bucket.s3.upload(params, (error, data) => {
+    //     if (error) {
+    //         res.status(500).send(error)
+    //     }
+    //     res.status(200).send(data)
+    // })
 })
 
 app.get("/health", (req, res) => {
