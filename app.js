@@ -20,24 +20,38 @@ app.post('/upload', upload, async (req, res) => {
     // console.log(req.file)
     let myFile = req.file.originalname.split(".")
     const fileType = myFile[myFile.length - 1]
-    const scaleByHalf = await sharp(req.file.buffer)
-        .metadata()
-        .then(() => sharp(req.file.buffer)
-            .resize({
-                width: 300,
-                height: 300,
-            })
-            .toBuffer()
-        );
-    console.log(scaleByHalf);
-
-    const params = [
-        {
-            Bucket: process.env.BUCKET_NAME,
-            Key: `${uuid()}.${fileType}`,
-            Body: scaleByHalf
-        }
+    const imageSizes = [
+        { sizeName: 'large', sizeInt: 2048 },
+        { sizeName: 'medium', sizeInt: 1024 },
+        { sizeName: 'thumb', sizeInt: 300 },
     ]
+    const params = [
+        // {
+        //     Bucket: process.env.BUCKET_NAME,
+        //     Key: `${uuid()}.${fileType}`,
+        //     Body: scaleByHalf
+        // }
+    ]
+    for (s of imageSizes) {
+
+        const scaleByHalf = await sharp(req.file.buffer)
+            .metadata()
+            .then(() => sharp(req.file.buffer)
+                .resize({
+                    width: s['sizeInt'],
+                    height: s['sizeInt'],
+                })
+                .toBuffer()
+            );
+        console.log(scaleByHalf);
+        params.push({
+            Bucket: process.env.BUCKET_NAME,
+            Key: `${uuid()}.${s['sizeName']}.${fileType}`,
+            Body: scaleByHalf
+        })
+    }
+
+
 
     const responses = await Promise.all(
         params.map(param => s3Bucket.s3.upload(param).promise())
