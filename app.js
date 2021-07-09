@@ -17,10 +17,17 @@ const storage = multer.memoryStorage({
 
 const upload = multer({ storage }).single('image', 1)
 app.post('/upload', upload, async (req, res) => {
+    if (!req.file) {
+        res.status(404).json({
+            message: "please add file to response"
+        })
+        return
+    }
     images = await resizeImages(req.file)
     const responses = await Promise.all(
         images.map(param => s3Bucket.s3.upload(param).promise())
     )
+
 
     res.status(200).send(responses)
 })
@@ -49,6 +56,7 @@ const resizeImages = async (image) => {
         console.log(scaleByHalf);
         params.push({
             Bucket: process.env.BUCKET_NAME,
+            name: s['sizeName'],
             Key: `${uuid()}.${s['sizeName']}.${fileType}`,
             Body: scaleByHalf
         })
