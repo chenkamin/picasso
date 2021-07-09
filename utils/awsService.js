@@ -4,7 +4,6 @@ dotenv.config({ path: './config.env' });
 
 const ID = process.env.ACCESS_KEY_ID;
 const SECRET = process.env.SECRET_ACCESS_KEY;
-
 const BUCKET_NAME = 'test-bucket-chen';
 
 

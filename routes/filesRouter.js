@@ -5,7 +5,7 @@ const sharp = require('sharp')
 const uuid = require('uuid')
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
-const s3Bucket = require('./../awsService')
+const s3Bucket = require('../utils/awsService')
 
 
 const storage = multer.memoryStorage({
@@ -43,7 +43,7 @@ const resizeImages = async (image) => {
     const params = [];
     for (s of imageSizes) {
 
-        const scaleByHalf = await sharp(image.buffer)
+        const manipulatedImage = await sharp(image.buffer)
             .metadata()
             .then(() => sharp(image.buffer)
                 .resize({
@@ -52,12 +52,11 @@ const resizeImages = async (image) => {
                 })
                 .toBuffer()
             );
-        console.log(scaleByHalf);
         params.push({
             Bucket: process.env.BUCKET_NAME,
             name: s['sizeName'],
             Key: `${uuid()}.${s['sizeName']}.${fileType}`,
-            Body: scaleByHalf
+            Body: manipulatedImage
         })
     }
     return params;
