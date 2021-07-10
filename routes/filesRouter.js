@@ -6,8 +6,8 @@ const uuid = require('uuid')
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
 const s3Bucket = require('../utils/awsService')
-
-
+const authProtection = require('../utils/routeProtection')
+console.log(authProtection.protect)
 const storage = multer.memoryStorage({
     destination: function (req, file, callback) {
         callback(null, '')
@@ -15,7 +15,8 @@ const storage = multer.memoryStorage({
 })
 const upload = multer({ storage }).single('image', 1)
 
-router.post('/upload', upload, async (req, res) => {
+router.post('/upload', upload, authProtection.protect, async (req, res, next) => {
+    console.log("INSIDE")
     if (!req.file) {
         res.status(404).json({
             message: "please add file to response"

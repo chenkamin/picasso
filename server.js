@@ -2,6 +2,7 @@
 const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
 const app = require('./app');
+const mongoose = require('mongoose')
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/picasso', { useNewUrlParser: true })
 
 const port = process.env.PORT || 3000;
