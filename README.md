@@ -9,24 +9,27 @@ Technologies : Nodejs, Mongo, Docker.
 
 
 App:
-- clone the project.
+- Clone the project.
 - npm i.
-- create config.env and store the following variables:
+- Create config.env and store the following variables:
 - ACCESS_KEY_ID= type:string:aws-credentials
 - SECRET_ACCESS_KEY= type:string:aws-credentials
 - BUCKET_NAME= type:string
 - JWT_SECRET= type:string
 
-- run node server.js
+- Run node server.js
 
 
 DB:
-- there are 2 options running the db.
-- if you have docker-compose installed in your computer
-- 1. run the command docker-compose up -d
-- if you have only docker installed
-- 1.docker pull mongo:4.0.4
-- 2.docker run -d -p 27017-27019:27017-27019 --name mongodb mongo:4.0.4
+- There are 2 options running the db.
+- If you have docker-compose installed in your computer
+- 1. run the command
+- ``` docker-compose up -d```
+- If you have only docker installed
+- 1.
+- ```docker pull mongo:4.0.4```
+- 2.
+- ```docker run -d -p 27017-27019:27017-27019 --name mongodb mongo:4.0.4```
 
 
 
@@ -38,6 +41,7 @@ DB:
 
 - if you are using postman:
 - you can view postman collection in the project and import it to postman if needed
+- remember to use the bearer token from login payload in /upload POST request.
 - if you are not using postman here are some Curl examples:
 
 # signup
