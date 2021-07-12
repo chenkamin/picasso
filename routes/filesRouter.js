@@ -7,40 +7,46 @@ const dotenv = require('dotenv');
 dotenv.config({ path: './config.env' });
 const s3Bucket = require('../utils/awsService')
 const authProtection = require('../utils/routeProtection')
-console.log(authProtection.protect)
+
 const storage = multer.memoryStorage({
     destination: function (req, file, callback) {
         callback(null, '')
     }
 })
+
+//1 image per request
 const upload = multer({ storage }).single('image', 1)
 
-router.post('/upload', upload, authProtection.protect, async (req, res, next) => {
-    console.log("INSIDE")
+var imageSizes = [
+    { sizeName: 'large', sizeInt: 2048 },
+    { sizeName: 'medium', sizeInt: 1024 },
+    { sizeName: 'thumb', sizeInt: 300 },
+]
+
+
+router.post('/upload', authProtection.protect, upload, async (req, res, next) => {
     if (!req.file) {
         res.status(404).json({
-            message: "please add file to response"
+            message: "please add file"
         })
         return
     }
     images = await resizeImages(req.file)
     const responses = await Promise.all(
-        images.map(param => s3Bucket.s3.upload(param).promise())
+        images.map(image => s3Bucket.s3.upload(image).promise())
     )
-
-
-    res.status(200).send(responses)
+    let imageLinks = responses.map((r, i) => {
+        let linksObj = {}
+        linksObj[imageSizes[i]['sizeName']] = r.Location
+        return linksObj;
+    });
+    res.status(200).send(imageLinks)
 })
 
 
 const resizeImages = async (image) => {
     let myFile = image.originalname.split(".")
     const fileType = myFile[myFile.length - 1]
-    const imageSizes = [
-        { sizeName: 'large', sizeInt: 2048 },
-        { sizeName: 'medium', sizeInt: 1024 },
-        { sizeName: 'thumb', sizeInt: 300 },
-    ]
     const params = [];
     for (s of imageSizes) {
 

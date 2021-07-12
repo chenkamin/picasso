@@ -6,9 +6,7 @@ exports.protect = async (req, res, next) => {
     ) {
         token = req.headers.authorization.split(' ')[1];
     }
-    console.log(token)
     if (!token) {
-        console.log("NO TOKEN")
         return next(res.status(401).json({ message: "You are not logged in! Please log in to get access." }));
     } else {
         next()
