@@ -5,17 +5,21 @@ picasso is a nodejs app that convert resolutions and upload images to aws s3 ser
 technologies : Nodejs, mongo, docker.
 
 # to run the project
+
+
 app:
 - clone the project
 - npm i
 - create config.env and store the following variables
-  ACCESS_KEY_ID= type=string
-  SECRET_ACCESS_KEY= type=string
-  BUCKET_NAME= type=string
-  JWT_SECRET= type=string
-  JWT_EXPIRES_IN= type=int+d  for example:10d
-  JWT_COOKIE_EXPIRES_IN=int
+- ACCESS_KEY_ID= type=string
+- SECRET_ACCESS_KEY= type=string
+- BUCKET_NAME= type=string
+- JWT_SECRET= type=string
+- JWT_EXPIRES_IN= type=int+d  for example:10d
+- JWT_COOKIE_EXPIRES_IN=int
 - run node server.js
+
+
 db:
 there is 2 options running the db.
 if you have docker-compose installed in your computer
@@ -28,11 +32,11 @@ if you have docker installed
 
 
 endpoints:
-POST api/v1/signup
-POST api/v1/login
-POST api/v1/upload
-if you are using postman:
-you can view postman collection int he project and import it to postman if needed
+- POST api/v1/signup
+- POST api/v1/login
+- POST api/v1/upload
+-if you are using postman:
+-you can view postman collection int he project and import it to postman if needed
 if you are not using postman here are some Curl examples:
 
 POST -signup: curl --location --request POST 'localhost:3000/api/v1/signup' \
