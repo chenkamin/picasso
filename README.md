@@ -40,7 +40,7 @@ if you have only docker installed
 -you can view postman collection in the project and import it to postman if needed
 - if you are not using postman here are some Curl examples:
 
-# POST - signup
+# signup
 ```
  curl --location --request POST 'localhost:3000/api/v1/signup' \
 --header 'Content-Type: application/json' \
@@ -52,7 +52,7 @@ if you have only docker installed
 "passwordConfirm":"pass12345"
 }'
 ```
-# POST - login
+# login
 ```
  curl --location --request POST 'localhost:3000/api/v1/login' \
 --header 'Content-Type: application/json' \
@@ -61,7 +61,7 @@ if you have only docker installed
 "email":"ringo@gmail.com",
 "password":"pass12345"
 ```
-# POST - upload
+# upload
 ```
 POST -upload: curl --location --request POST 'localhost:3000/api/v1/upload' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZWJlZTAyNTc2MDcxNTBjM2FjM2NlOSIsImlhdCI6MTYyNjA3NDY0OSwiZXhwIjoxNjMzODUwNjQ5fQ.dkhCqlG1ywAWryMGiRsO2Yh34QwzKgvf_mGN2OO91Bc' \
