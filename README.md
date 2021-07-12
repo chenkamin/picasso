@@ -26,9 +26,9 @@ DB:
 - 1. run the command
 - ``` docker-compose up -d```
 - If you have only docker installed
-1.
+- 1.
 - ```docker pull mongo:4.0.4```
-2.
+- 2.
 - ```docker run -d -p 27017-27019:27017-27019 --name mongodb mongo:4.0.4```
 
 
@@ -37,12 +37,12 @@ DB:
 - POST api/v1/signup
 - POST api/v1/login
 - POST api/v1/upload
-- upload route is protected by a middleware and allows only login users to use it . 
+- Upload route is protected by a middleware and allows only login users to use it . 
 
-- if you are using postman:
-- you can view postman collection in the project and import it to postman if needed
-- remember to use the bearer token from login payload in /upload POST request.
-- if you are not using postman here are some Curl examples:
+- If you are using postman:
+- You can view postman collection in the project and import it to postman if needed
+- Remember to use the bearer token from login payload in /upload POST request.
+- Here are some Curl examples in case you are not using postman:
 
 # signup
 ```
