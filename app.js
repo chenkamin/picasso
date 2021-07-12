@@ -30,6 +30,7 @@ app.use('/health', (req, res) => {
 app.use('/api/v1/', authRouter);
 app.use('/api/v1/', filesRouter);
 
+
 app.all('*', (req, res, next) => {
     next(res.status(404).json({ message: "route not exists" }));
 });
