@@ -30,7 +30,7 @@ if you have only docker installed
 
 
 
-endpoints:
+#endpoints:
 - POST api/v1/signup
 - POST api/v1/login
 - POST api/v1/upload
