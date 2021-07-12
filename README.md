@@ -26,9 +26,9 @@ DB:
 - 1. run the command
 - ``` docker-compose up -d```
 - If you have only docker installed
-- 1.
+1.
 - ```docker pull mongo:4.0.4```
-- 2.
+2.
 - ```docker run -d -p 27017-27019:27017-27019 --name mongodb mongo:4.0.4```
 
 
