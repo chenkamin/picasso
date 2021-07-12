@@ -1,6 +1,6 @@
 # picasso
 
-Picasso is a nodejs app that convert resolutions and upload images to aws s3 service.
+Picasso is a nodejs app that converts resolutions and uploads images to aws s3 service.
 
 
 Technologies : Nodejs, Mongo, Docker.
@@ -21,7 +21,7 @@ App:
 
 
 DB:
-- there is 2 options running the db.
+- there are 2 options running the db.
 - if you have docker-compose installed in your computer
 - 1. run the command docker-compose up -d
 - if you have only docker installed
