@@ -45,8 +45,8 @@ router.post('/upload', authProtection.protect, upload, async (req, res, next) =>
 
 
 const resizeImages = async (image) => {
-    let myFile = image.originalname.split(".")
-    const fileType = myFile[myFile.length - 1]
+    let fileForUpload = image.originalname.split(".")
+    const fileType = fileForUpload[fileForUpload.length - 1]
     const params = [];
     for (s of imageSizes) {
 
