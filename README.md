@@ -36,8 +36,8 @@ DB:
 - POST api/v1/upload
 - upload route is protected by a middleware and allows only login users to use it . 
 
--if you are using postman:
--you can view postman collection in the project and import it to postman if needed
+- if you are using postman:
+- you can view postman collection in the project and import it to postman if needed
 - if you are not using postman here are some Curl examples:
 
 # signup
